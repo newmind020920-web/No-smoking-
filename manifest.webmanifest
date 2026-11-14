@@ -1,0 +1,11 @@
+{
+  "name": "한 모금 — 금연 도우미",
+  "short_name": "한 모금",
+  "lang": "ko",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#020306",
+  "theme_color": "#020306",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
