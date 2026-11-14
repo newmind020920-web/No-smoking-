@@ -150,12 +150,20 @@
     save(); applyOptions(); fillSettings();
     $('#saved').hidden = false; setTimeout(() => { $('#saved').hidden = true; }, 1800);
   });
-  $('#btn-restart').addEventListener('click', () => {
-    if (!confirm('금연 시작 시각을 지금으로 바꿀까요? 넘긴 갈망 기록은 그대로 남습니다.')) return;
+  // 두 번 눌러 확인(브라우저 confirm 창을 쓰지 않음)
+  function twoTap(btn, ask, run) {
+    const label = btn.textContent;
+    let timer = 0;
+    btn.addEventListener('click', () => {
+      if (timer) { clearTimeout(timer); timer = 0; btn.textContent = label; run(); return; }
+      btn.textContent = ask;
+      timer = setTimeout(() => { timer = 0; btn.textContent = label; }, 3500);
+    });
+  }
+  twoTap($('#btn-restart'), '한 번 더 누르면 지금부터 다시 시작합니다', () => {
     data.quitAt = Date.now(); save(); fillSettings(); render();
   });
-  $('#btn-wipe').addEventListener('click', () => {
-    if (!confirm('모든 기록과 설정을 지울까요? 되돌릴 수 없습니다.')) return;
+  twoTap($('#btn-wipe'), '한 번 더 누르면 전부 지웁니다', () => {
     try { localStorage.removeItem(KEY); } catch (e) {}
     location.reload();
   });
