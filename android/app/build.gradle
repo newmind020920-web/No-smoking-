@@ -2,18 +2,20 @@ plugins {
     id 'com.android.application'
 }
 
+// 플레이 업로드 키: CI에서만 비밀 값으로 주입된다
+def uploadStore = System.getenv('UPLOAD_KEYSTORE_FILE')
 def buildNumber = (System.getenv('GITHUB_RUN_NUMBER') ?: '1') as int
 
 android {
     namespace 'app.hanmogeum.quit'
-    compileSdk 34
+    compileSdk 36
 
     defaultConfig {
         applicationId 'app.hanmogeum.quit'
         minSdk 26
-        targetSdk 34
+        targetSdk 36
         versionCode buildNumber
-        versionName "0.1.${buildNumber}"
+        versionName "1.0.${buildNumber}"
     }
 
     // 직접 설치(사이드로드)용 고정 서명 키. 저장소에 공개돼 있으므로 스토어 출시에는 쓰지 않는다.
@@ -24,11 +26,19 @@ android {
             keyAlias 'sideload'
             keyPassword 'android'
         }
+        if (uploadStore) {
+            upload {
+                storeFile file(uploadStore)
+                storePassword System.getenv('UPLOAD_KEYSTORE_PASSWORD')
+                keyAlias 'upload'
+                keyPassword System.getenv('UPLOAD_KEYSTORE_PASSWORD')
+            }
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.sideload
+            signingConfig uploadStore ? signingConfigs.upload : signingConfigs.sideload
         }
     }
     compileOptions {

@@ -85,3 +85,9 @@ h3 { margin: 26px 0 10px; font-size: 16px; }
 .tabbar button .ic { font-size: 19px; filter: grayscale(1) opacity(.6); }
 .tabbar button.active { color: var(--text); }
 .tabbar button.active .ic { filter: none; }
+
+/* 안내 */
+.about { color: var(--muted); font-size: 12.5px; }
+.about h3 { color: var(--text); margin-top: 6px; }
+.about p { margin: 0 0 10px; }
+.about a { color: #ffb48a; }
