@@ -35,8 +35,15 @@ jobs:
       - name: Build AAB for Play Console
         if: env.KEYSTORE_B64 != ''
         run: |
-          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/upload.p12"
-          UPLOAD_KEYSTORE_FILE="$RUNNER_TEMP/upload.p12" UPLOAD_KEYSTORE_PASSWORD="$KEYSTORE_PASSWORD" \
+          # 붙여 넣을 때 섞인 공백·줄바꿈은 무시한다
+          PW="$(printf '%s' "$KEYSTORE_PASSWORD" | tr -d '[:space:]')"
+          printf '%s' "$KEYSTORE_B64" | tr -d '[:space:]' | base64 -d > "$RUNNER_TEMP/upload.p12"
+          echo "password length: ${#PW} (expected 32)"
+          if ! keytool -list -keystore "$RUNNER_TEMP/upload.p12" -storepass "$PW" -alias upload > /dev/null 2>&1; then
+            echo "::error::UPLOAD_KEYSTORE_PASSWORD does not open the keystore in UPLOAD_KEYSTORE_BASE64"
+            exit 1
+          fi
+          UPLOAD_KEYSTORE_FILE="$RUNNER_TEMP/upload.p12" UPLOAD_KEYSTORE_PASSWORD="$PW" \
             gradle -p android bundleRelease --no-daemon
           cp android/app/build/outputs/bundle/release/app-release.aab hanmogeum.aab
           rm -f "$RUNNER_TEMP/upload.p12"
