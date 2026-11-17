@@ -17,7 +17,7 @@
     <canvas id="sim"></canvas>
     <div class="hud">
       <div class="pill" id="hud-time">금연 0분째</div>
-      <div class="pill" id="hud-count">넘긴 갈망 0회</div>
+      <div class="pill" id="hud-count">참은 담배 0개비</div>
     </div>
     <div class="side left" id="hint">담배를 꾹 누르고 있으면 한 모금 빨아들입니다</div>
     <div class="side right" id="crave" hidden>
@@ -28,7 +28,7 @@
     <div class="overlay" id="done" hidden>
       <div class="card">
         <div class="emoji">🎉</div>
-        <h2>갈망을 넘겼어요</h2>
+        <h2>한 개비 참았어요</h2>
         <p>진짜 담배 대신 가상 담배 한 개비로 버텼습니다.</p>
         <p class="gain" id="done-gain"></p>
         <button class="btn primary" id="btn-new">새 담배 꺼내기</button>
@@ -46,9 +46,8 @@
     </header>
     <div class="grid">
       <div class="stat"><div class="v" id="st-money">₩0</div><div class="k">아낀 돈</div></div>
-      <div class="stat"><div class="v" id="st-cigs">0개비</div><div class="k">안 피운 담배</div></div>
       <div class="stat"><div class="v" id="st-life">0분</div><div class="k">되찾은 수명(추정)</div></div>
-      <div class="stat"><div class="v" id="st-crave">0회</div><div class="k">가상 담배로 넘긴 갈망</div><div class="k sub" id="st-today">오늘 0회</div></div>
+      <div class="stat wide"><div class="v" id="st-held">0개비</div><div class="k">참은 담배 (가상 담배로 대신 피운 개비)</div><div class="k sub" id="st-today">오늘 0개비</div></div>
     </div>
     <h3>몸의 회복</h3>
     <ol class="timeline" id="timeline"></ol>

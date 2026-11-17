@@ -6,8 +6,8 @@
   const ctx = canvas.getContext('2d');
   const TAU = Math.PI * 2;
 
-  const HOLD_BURN_TIME = 55;   // 계속 빨았을 때 한 개비가 다 타는 시간(초)
-  const IDLE_BURN_TIME = 420;  // 그냥 뒀을 때 다 타는 시간(초)
+  const HOLD_BURN_TIME = 38.5;   // 계속 빨았을 때 한 개비가 다 타는 시간(초)
+  const IDLE_BURN_TIME = 294;  // 그냥 뒀을 때 다 타는 시간(초)
   const MAX_PARTICLES = 700;
 
   const rand = (a, b) => a + Math.random() * (b - a);

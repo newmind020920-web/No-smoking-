@@ -55,6 +55,7 @@ main { position: fixed; inset: 0 0 var(--tab-h) 0; }
 .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
 .stat .v { font-size: 21px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .stat .k { color: var(--muted); font-size: 12.5px; }
+.stat.wide { grid-column: 1 / -1; }
 .stat .k.sub { color: var(--ember); margin-top: 2px; }
 h3 { margin: 26px 0 10px; font-size: 16px; }
 .page-title { margin: 0 0 16px; font-size: 22px; }

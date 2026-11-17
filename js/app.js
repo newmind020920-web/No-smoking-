@@ -56,7 +56,7 @@
     const cigs = (el / DAY) * data.perDay;
 
     $('#hud-time').textContent = `금연 ${shortDur(el)}째`;
-    $('#hud-count').textContent = `넘긴 갈망 ${data.log.length}회`;
+    $('#hud-count').textContent = `참은 담배 ${data.log.length}개비`;
     if (craveStart) {
       const s = Math.floor((Date.now() - craveStart) / 1000);
       $('#crave-clock').textContent = `${Math.floor(s / 60)}:${pad(s % 60)}`;
@@ -67,10 +67,9 @@
     $('#st-timer').textContent = `${Math.floor(s / 86400)}일 ${pad(Math.floor(s / 3600) % 24)}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}`;
     $('#st-since').textContent = new Date(data.quitAt).toLocaleString('ko-KR', { dateStyle: 'long', timeStyle: 'short' }) + '부터';
     $('#st-money').textContent = won(cigs * data.price / PACK);
-    $('#st-cigs').textContent = `${Math.floor(cigs).toLocaleString('ko-KR')}개비`;
     $('#st-life').textContent = lifeDur(cigs * LIFE_MIN);
-    $('#st-crave').textContent = `${data.log.length}회`;
-    $('#st-today').textContent = `오늘 ${todayCount()}회`;
+    $('#st-held').textContent = `${data.log.length.toLocaleString('ko-KR')}개비`;
+    $('#st-today').textContent = `오늘 ${todayCount()}개비`;
 
     $('#timeline').innerHTML = MILESTONES.map(([ms, when, what]) => {
       const p = Math.min(1, el / ms);
