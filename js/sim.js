@@ -279,6 +279,16 @@
     buildAsh((Math.random() * 1e9) | 0);
   }
 
+  // 다 탔거나(early=false) 중간에 비벼 껐을 때(early=true)
+  function finish(early) {
+    if (S.done) return;
+    S.done = true; S.doneT = 0;
+    if (S.holding) { S.holding = false; emit('hold', false, 0); }
+    if (early) { dropAsh(); S.glow = 0; }
+    if (opts.haptics && navigator.vibrate) navigator.vibrate(early ? 40 : [30, 60, 30]);
+    emit('finish', early);
+  }
+
   function update(dt) {
     S.t += dt;
     const target = S.done ? 0 : S.holding ? 1 : 0.1;
@@ -289,12 +299,7 @@
       S.burn += rate * dt;
       S.ashLen += (rate * dt * G.paperLen / G.cw) * 0.85;
       if (S.ashLen > S.ashMax) dropAsh();
-      if (S.burn >= 1) {
-        S.burn = 1; S.done = true; S.doneT = 0;
-        if (S.holding) { S.holding = false; emit('hold', false, 0); }
-        if (opts.haptics && navigator.vibrate) navigator.vibrate([30, 60, 30]);
-        emit('finish');
-      }
+      if (S.burn >= 1) { S.burn = 1; finish(false); }
     } else S.doneT += dt;
 
     const rate = S.done ? Math.max(0, 12 - S.doneT * 3) : 20 + S.glow * 42;
@@ -466,6 +471,7 @@
       S.running = false; cancelAnimationFrame(S.raf);
       if (hissGain && ac) hissGain.gain.setTargetAtTime(0, ac.currentTime, 0.05);
     },
+    extinguish() { finish(true); },
     reset() {
       S.burn = 0; S.done = false; S.doneT = 0; S.glow = 0; S.holding = false;
       S.ashLen = 0.45; S.ashMax = rand(0.9, 1.4);

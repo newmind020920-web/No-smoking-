@@ -32,6 +32,9 @@ main { position: fixed; inset: 0 0 var(--tab-h) 0; }
 .side .label { color: var(--muted); font-size: 12px; }
 .side .clock { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; color: #fff; }
 .small { font-size: 11.5px !important; }
+.stop-btn { position: absolute; left: 14px; bottom: 18px; z-index: 3; padding: 11px 18px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); background: rgba(14, 18, 25, .78); color: var(--text); font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+.stop-btn:active { transform: scale(.97); }
+.stop-btn:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
 #hint.inhale { color: #ffb48a; }
 
 .overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(0, 0, 0, .55); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 5; }

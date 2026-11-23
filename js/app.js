@@ -99,7 +99,7 @@
   Sim.on('hold', (holding, dur) => {
     clearTimeout(hintTimer);
     if (holding) {
-      if (!craveStart) { craveStart = Date.now(); $('#crave').hidden = false; render(); }
+      if (!craveStart) { craveStart = Date.now(); $('#crave').hidden = false; $('#btn-stop').hidden = false; render(); }
       hint.textContent = '천천히 들이쉬는 중…';
       hint.classList.add('inhale');
     } else {
@@ -108,18 +108,23 @@
       hintTimer = setTimeout(() => { hint.textContent = '피우고 싶을 때마다 다시 꾹 누르세요'; }, 3500);
     }
   });
-  Sim.on('finish', () => {
+  Sim.on('finish', (early) => {
     data.log.push(Date.now()); save();
+    $('#btn-stop').hidden = true;
+    $('#done-msg').textContent = early
+      ? '다 피우지 않고 꺼도 참은 거예요. 욕구가 지나갔다면 충분합니다.'
+      : '진짜 담배 대신 가상 담배 한 개비로 버텼습니다.';
     $('#done-gain').textContent = `이 한 개비로 지킨 것: ${won(data.price / PACK)} · 수명 약 ${LIFE_MIN}분`;
-    setTimeout(() => { $('#done').hidden = false; }, 1200);
+    setTimeout(() => { $('#done').hidden = false; }, early ? 700 : 1200);
     render();
   });
   function newCig() {
     $('#done').hidden = true;
-    craveStart = 0; $('#crave').hidden = true;
+    craveStart = 0; $('#crave').hidden = true; $('#btn-stop').hidden = true;
     hint.textContent = '담배를 꾹 누르고 있으면 한 모금 빨아들입니다';
     Sim.reset();
   }
+  $('#btn-stop').addEventListener('click', () => Sim.extinguish());
   $('#btn-new').addEventListener('click', newCig);
   $('#btn-stats').addEventListener('click', () => { newCig(); show('stats'); });
 
