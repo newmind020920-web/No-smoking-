@@ -58,7 +58,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release delete latest --cleanup-tag --yes || true
-          gh release create latest hanmogeum.apk $(ls hanmogeum.aab 2>/dev/null) \
+          # 파일 이름에 버전을 붙여, 같은 이름으로 여러 번 내려받아 이름이 깨지는 일을 막는다
+          V="1.0.$GITHUB_RUN_NUMBER"
+          cp hanmogeum.apk "hanmogeum-$V.apk"
+          [ -f hanmogeum.aab ] && cp hanmogeum.aab "hanmogeum-$V.aab"
+          gh release create latest hanmogeum.apk "hanmogeum-$V.apk" $(ls hanmogeum.aab "hanmogeum-$V.aab" 2>/dev/null) \
             --target "$GITHUB_SHA" \
             --title "한 모금 (빌드 #$GITHUB_RUN_NUMBER)" \
             --notes "hanmogeum.apk: 폰에 직접 설치용 / hanmogeum.aab: 플레이 콘솔 업로드용(업로드 키가 등록된 경우에만 생성)"
